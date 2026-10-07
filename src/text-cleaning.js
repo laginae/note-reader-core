@@ -1,5 +1,7 @@
 'use strict';
 
+const { academicOptions, academicLatex, citations, skipTable, omission } = require('./academic-speech');
+
 const DEFAULT_CHUNK_LIMITS = [40, 80, 120, 160, 280, 320];
 const DEFAULT_ONLINE_CHUNK_LIMITS = [200, 400, 800];
 const DEFAULT_MATH_READING_LANGUAGE = 'english';
@@ -134,8 +136,9 @@ function isMarkdownTableDelimiterLine(line) {
   return cells.length >= 2 && cells.every((cell) => /^:?-{3,}:?$/.test(cell.replace(/\s+/g, '')));
 }
 
-function formatMarkdownTableForSpeech(headers, rows) {
+function formatMarkdownTableForSpeech(headers, rows, options = {}) {
   const tableText = headers.concat(...rows).join(' ');
+  if (options.academicTableMode && skipTable(headers, rows, options)) return omission('table', options, tableText);
   const useChineseLabels = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/.test(tableText);
   const output = [];
   const headerLabels = headers.map((header) => header.trim()).filter(Boolean);
@@ -165,7 +168,7 @@ function formatMarkdownTableForSpeech(headers, rows) {
   return output.join('\n');
 }
 
-function sanitizeMarkdownTablesForSpeech(text) {
+function sanitizeMarkdownTablesForSpeech(text, options = {}) {
   const lines = normalizeLineBreaks(text).split('\n');
   const output = [];
 
@@ -186,7 +189,7 @@ function sanitizeMarkdownTablesForSpeech(text) {
         rowIndex += 1;
       }
 
-      output.push(formatMarkdownTableForSpeech(headers, rows));
+      output.push(formatMarkdownTableForSpeech(headers, rows, options));
       index = rowIndex - 1;
       continue;
     }
@@ -241,6 +244,10 @@ function verbalizeNumericCitationsForSpeech(text) {
   );
 }
 
+function sanitizeAcademicTextForSpeech(text, options = {}) {
+  return sanitizeTextForSpeech(text, { ...academicOptions(options), academicCitations: true });
+}
+
 function sanitizeTextForSpeech(text, options = {}) {
   let value = sanitizeLatexForSpeech(normalizeLineBreaks(text), options);
 
@@ -250,9 +257,9 @@ function sanitizeTextForSpeech(text, options = {}) {
   value = value.replace(/!\[[^\]]*]\([^)]*\)/g, ' ');
   value = value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2');
   value = value.replace(/\[\[([^\]]+)\]\]/g, '$1');
-  value = verbalizeNumericCitationsForSpeech(value);
+  value = options.academicCitations === true ? citations(value) : verbalizeNumericCitationsForSpeech(value);
   value = value.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
-  value = sanitizeMarkdownTablesForSpeech(value);
+  value = sanitizeMarkdownTablesForSpeech(value, options);
   value = value.replace(/`([^`]+)`/g, '$1');
   value = value.replace(/<[^>]+>/g, ' ');
   value = value.replace(/^\s{0,3}#{1,6}\s+/gm, '');
@@ -261,8 +268,9 @@ function sanitizeTextForSpeech(text, options = {}) {
   value = value.replace(/[*_~]/g, '');
   value = value.replace(/\|/g, ' ');
   value = value.replace(/[ \t]+/g, ' ');
-  value = value.replace(/\s+([，。、；：！？,.])/g, '$1');
-  value = value.replace(/([，。、；：！？])\s+/g, '$1');
+  // Academic mode preserves paragraph boundaries for source-position mapping.
+  value = value.replace(options.academicCitations ? /[ \t]+([，。、；：！？,.])/g : /\s+([，。、；：！？,.])/g, '$1');
+  value = value.replace(options.academicCitations ? /([，。、；：！？])[ \t]+/g : /([，。、；：！？])\s+/g, '$1');
 
   return value
     .split('\n')
@@ -275,6 +283,9 @@ function sanitizeTextForSpeech(text, options = {}) {
 function sanitizeLatexForSpeech(text, options = {}) {
   let value = normalizeLineBreaks(text);
   const mathReadingLanguage = normalizeMathReadingLanguage(options.mathReadingLanguage);
+  if (options.academicMathMode || options.academicMathStyle) {
+    return verbalizeLatexCommands(academicLatex(value, options), mathReadingLanguage);
+  }
 
   value = value.replace(/\$\$([\s\S]*?)\$\$/g, (match, content) => replaceLatexFormula(match, content, mathReadingLanguage));
   value = value.replace(/\\\[([\s\S]*?)\\\]/g, (match, content) => replaceLatexFormula(match, content, mathReadingLanguage));
@@ -408,6 +419,7 @@ module.exports = {
   normalizeLineBreaks,
   normalizeMathReadingLanguage,
   sanitizeTextForSpeech,
+  sanitizeAcademicTextForSpeech,
   sanitizeLatexForSpeech,
   verbalizeShortLatex,
   normalizeSpeed,
