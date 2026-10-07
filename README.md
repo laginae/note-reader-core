@@ -1,7 +1,5 @@
 # Note Reader Core
 
-Simple formulas such as `$z_{\mathrm d}$` are read as "z sub d". Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply.
-
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 Pure JavaScript reading algorithms for the desktop and mobile editions of Note and PDF Voice Reader. This is a developer library, not an installable Obsidian plugin or a speech service.
@@ -51,6 +49,8 @@ Rapid mode can use a complete first sentence of 5-19 code points as the first pa
 The caller decides whether to use this on initial playback or after a seek. This function does not alter logical chunks, schedule synthesis, prefetch audio, charge an API, or play anything. Prefer lazy synthesis and at most one upcoming audio part unless the user explicitly requests an export; extra subdivisions can increase request count.
 
 ## Academic Options
+
+Simple formulas such as `$z_{\mathrm d}$` are read as "z sub d". Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply.
 
 `sanitizeAcademicTextForSpeech(text, options)` is the opt-in Markdown speech-cleaning entry point. It enables grouped numeric citations such as `[2][4]` becoming "references 2 and 4", or "文献2和4" in Chinese prose.
 

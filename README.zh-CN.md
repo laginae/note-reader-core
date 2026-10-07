@@ -1,7 +1,5 @@
 # Note Reader Core
 
-简单公式如 `$z_{\mathrm d}$` 会读作“z sub d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。
-
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 供桌面版和移动版 Note Reader 共用的纯 JavaScript 朗读算法库。这是开发者组件，不是可以直接安装的 Obsidian 插件，也不是语音服务。
@@ -51,6 +49,8 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 宿主决定在首次朗读、跳段后或其它场景启用。函数本身不修改逻辑段，不调用接口、不预合成、不播放音频。除非用户明确要求导出，建议按需合成并最多预取一个后续子音频；拆分更多子音频可能增加请求次数。
 
 ## 学术阅读设置
+
+简单公式如 `$z_{\mathrm d}$` 会读作“z sub d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。
 
 `sanitizeAcademicTextForSpeech(text, options)` 是显式启用学术优化的 Markdown 清理入口。相邻引用如 `[2][4]` 会合并成“文献2和4”，英文正文中为“references 2 and 4”。
 
