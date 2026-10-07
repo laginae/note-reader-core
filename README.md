@@ -52,6 +52,8 @@ The caller decides whether to use this on initial playback or after a seek. This
 
 Simple formulas such as `$z_{\mathrm d}$` are read as "z sub d". Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply.
 
+Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endpoints use concise "to" phrasing; verbose mode retains "closed interval". Other bracketed pairs keep their brackets. Simply subscripted adjacent factors are separated by "times".
+
 `sanitizeAcademicTextForSpeech(text, options)` is the opt-in Markdown speech-cleaning entry point. It enables grouped numeric citations such as `[2][4]` becoming "references 2 and 4", or "文献2和4" in Chinese prose.
 
 | Option | Default | Values and behavior |

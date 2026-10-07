@@ -52,6 +52,8 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 
 简单公式如 `$z_{\mathrm d}$` 会读作“z sub d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。
 
+常见上下界写法如 `[\ell,u]`、以同一变量的 `E_{\min}` / `E_{\max}` 开头的两端表达式，精简模式使用“到”，详细模式保留“闭区间”提示。其他方括号对仍按括号朗读；相邻的简单带下标变量之间补读“乘以”。
+
 `sanitizeAcademicTextForSpeech(text, options)` 是显式启用学术优化的 Markdown 清理入口。相邻引用如 `[2][4]` 会合并成“文献2和4”，英文正文中为“references 2 and 4”。
 
 | 选项 | 默认值 | 含义 |
