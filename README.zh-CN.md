@@ -1,5 +1,7 @@
 # Note Reader Core
 
+简单公式如 `$z_{\mathrm d}$` 会读作“z sub d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 供桌面版和移动版 Note Reader 共用的纯 JavaScript 朗读算法库。这是开发者组件，不是可以直接安装的 Obsidian 插件，也不是语音服务。

@@ -1,6 +1,6 @@
 {
   "name": "@laginae/note-reader-core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Platform-neutral reading algorithms shared by Note and PDF Voice Reader plugins.",
   "license": "MIT",
   "main": "index.js",

@@ -1,5 +1,7 @@
 # Note Reader Core
 
+Simple formulas such as `$z_{\mathrm d}$` are read as "z sub d". Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply.
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 Pure JavaScript reading algorithms for the desktop and mobile editions of Note and PDF Voice Reader. This is a developer library, not an installable Obsidian plugin or a speech service.
