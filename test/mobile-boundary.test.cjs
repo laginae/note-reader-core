@@ -22,7 +22,7 @@ test('all package exports load with no Node or browser host globals', () => {
   const context = vm.createContext({ Intl: undefined });
   const modules = new Map();
   const load = filename => {
-    const fullPath = path.resolve(filename.endsWith('.js') ? filename : filename + '.js');
+    const fullPath = path.resolve(/\.(?:c?js)$/.test(filename) ? filename : filename + '.js');
     assert.ok(fullPath.startsWith(root + path.sep));
     if (modules.has(fullPath)) return modules.get(fullPath).exports;
     const module = { exports: {} };
