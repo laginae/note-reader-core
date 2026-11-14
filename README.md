@@ -17,7 +17,7 @@ Pure JavaScript reading algorithms for the desktop and mobile editions of Note a
 Install the pinned Git release and bundle it into your application:
 
 ```sh
-npm install github:laginae/note-reader-core#0.3.0
+npm install github:laginae/note-reader-core#0.3.1
 ```
 
 ```js
@@ -50,6 +50,8 @@ The caller decides whether to use this on initial playback or after a seek. This
 
 ## Academic Options
 
+`academicTableRepeatHeaders` defaults to `true`. Set it to `false` to announce a recognized table's headers once, then read row numbers and values without repeating column names. Empty cells retain a short placeholder to preserve column order. This does not change `academicTableMode` or infer structure from flattened PDF text. Hosts can call `formatTableForSpeech(headers, rows, options)` for already structured tables.
+
 Simple formulas such as `$z_{\mathrm d}$` are read as "z d" in concise style. Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply. Short accents keep their labels, for example `\underline f(x)` as "f underbar of x" and `\overline g(x)` as "g bar of x".
 
 Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endpoints use concise "to" phrasing. Membership or explicit interval prose also enables bounded interval reading; endpoint inclusion is retained by default. Ambiguous short coordinate/vector pairs use neutral pauses rather than an assumed range. Verbose mode retains supported structural labels. Simply subscripted adjacent factors are separated by "times".
@@ -64,6 +66,7 @@ Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endp
 | `academicFunctionStyle` | `of` | `of`, or `compact` for "f x" rather than "f of x" in concise simple functions; prose and verbose style are unchanged |
 | `academicIntervalStyle` | `precise` | `precise` retains endpoint inclusion; `range` only says lower "to" upper in concise recognized intervals |
 | `academicTableMode` | `smart` | `smart`, `all`, `skip` |
+| `academicTableRepeatHeaders` | `true` | Set `false` to read column headings only once |
 | `academicSkipNotice` | `true` | Speak a short omission notice; `false` omits silently |
 
 Smart math supports short known LaTeX expressions. Its complexity budget is 32 characters after commands are collapsed and braces/whitespace removed; `all` raises it to 100. Integrals, sums, matrices, unknown commands, malformed braces and deep nesting are not guessed.

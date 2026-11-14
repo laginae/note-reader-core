@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1
+
+- Add `academicTableRepeatHeaders`, on by default. When false, read the opening headers once and then each row's values without repeating column labels.
+- Export `formatTableForSpeech` so host table parsers can use the same output. Preserve row labels, order, zero values and empty-cell positions.
+- Keep smart/explicit table skipping independent from header repetition. No new host APIs or dependencies are added.
+
 ## 0.3.0
 
 - Consolidate the current desktop/mobile short-formula parser and its bounded helpers in the dependency-free core, so hosts can share one pronunciation implementation.

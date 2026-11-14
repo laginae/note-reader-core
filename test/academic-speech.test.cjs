@@ -72,6 +72,6 @@ test('legacy default cleanup is unchanged; the academic entry point explicitly o
 
 test('academic options project only public algorithm settings', () => {
   assert.deepEqual(academicOptions({ apiKey: 'synthetic-placeholder', filePath: 'sample.md' }), academicOptions());
-  assert.equal(Object.keys(academicOptions()).length, 7);
+  assert.equal(Object.keys(academicOptions()).length, 8);
   assert.equal(academicOptions({ academicMathMode: 'invalid' }).academicMathMode, 'smart');
 });

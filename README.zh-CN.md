@@ -1,5 +1,7 @@
 # Note Reader Core
 
+表格设置 `academicTableRepeatHeaders` 默认开启。关闭后仅在开头读一次表头，再按行读行号与单元格；空单元格保留简短占位，避免列顺序错位。该选项不改变智能跳过策略，也不从扁平 PDF 文字强行推断表头。宿主可用 `formatTableForSpeech(headers, rows, options)` 处理已可靠提取的表格。
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 供桌面版和移动版 Note Reader 共用的纯 JavaScript 朗读算法库。这是开发者组件，不是可以直接安装的 Obsidian 插件，也不是语音服务。
@@ -17,7 +19,7 @@
 安装固定 Git 版本，并将库打包到应用中：
 
 ```sh
-npm install github:laginae/note-reader-core#0.3.0
+npm install github:laginae/note-reader-core#0.3.1
 ```
 
 ```js
@@ -64,6 +66,7 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 | `academicFunctionStyle` | `of` | `compact` 可在简洁的简单函数中省略 of，读“f x”；正文与完整模式不变 |
 | `academicIntervalStyle` | `precise` | 默认保留端点条件；`range` 可在简洁的已识别区间中只读起点到终点 |
 | `academicTableMode` | `smart` | `smart`、`all`、`skip` |
+| `academicTableRepeatHeaders` | `true` | 设为 `false` 后只在开头读一次表头 |
 | `academicSkipNotice` | `true` | 简短提示内容被略过；设为 `false` 则静默略过 |
 
 智能公式支持常见短 LaTeX 表达式。将命令压缩、去掉大括号和空白后，复杂度长度限为 32；`all` 放宽至 100。积分、求和、矩阵、未知命令、括号错误或深层嵌套不会强行猜读。

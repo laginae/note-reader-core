@@ -15,9 +15,10 @@ const GREEK_FACTOR = new RegExp('(^|[^A-Za-z\\\\])([A-Za-z](?:_\\{[A-Za-z0-9]+\\
 const MATH_OPERATORS = {leq:['less than or equal to','小于等于'],geq:['greater than or equal to','大于等于'],neq:['not equal to','不等于'],approx:['approximately equal to','约等于'],times:['times','乘以'],cdot:['times','乘以'],pm:['plus or minus','正负'],mp:['minus or plus','负正'],infty:['infinity','无穷'],to:['to','到'],rightarrow:['to','到'],leftarrow:['from','来自'],in:['belongs to','属于'],notin:['does not belong to','不属于'],partial:['partial','偏导']};
 Object.assign(MATH_OPERATORS, {le:MATH_OPERATORS.leq,ge:MATH_OPERATORS.geq,ne:MATH_OPERATORS.neq,lt:['less than','小于'],gt:['greater than','大于']});
 
-const ACADEMIC_DEFAULTS = Object.freeze({ academicMathMode: 'smart', academicMathStyle: 'concise', academicIntervalStyle: 'precise', academicFunctionStyle: 'of', academicTableMode: 'smart', academicSkipNotice: true });
+const ACADEMIC_DEFAULTS = Object.freeze({ academicMathMode: 'smart', academicMathStyle: 'concise', academicIntervalStyle: 'precise', academicFunctionStyle: 'of', academicTableMode: 'smart', academicTableRepeatHeaders: true, academicSkipNotice: true });
 function academicOptions(settings = {}) {
   return { ...ACADEMIC_DEFAULTS, academicSkipNotice: settings.academicSkipNotice !== false,
+    academicTableRepeatHeaders: settings.academicTableRepeatHeaders !== false,
     mathReadingLanguage: ['english','chinese','skip'].includes(settings.mathReadingLanguage) ? settings.mathReadingLanguage : 'english',
     academicMathMode: ['smart','all','skip'].includes(settings.academicMathMode) ? settings.academicMathMode : 'smart',
     academicMathStyle: settings.academicMathStyle === 'verbose' ? 'verbose' : 'concise',
