@@ -17,7 +17,7 @@ Pure JavaScript reading algorithms for the desktop and mobile editions of Note a
 Install the pinned Git release and bundle it into your application:
 
 ```sh
-npm install github:laginae/note-reader-core#v0.2.0
+npm install github:laginae/note-reader-core#0.3.0
 ```
 
 ```js
@@ -50,9 +50,9 @@ The caller decides whether to use this on initial playback or after a seek. This
 
 ## Academic Options
 
-Simple formulas such as `$z_{\mathrm d}$` are read as "z sub d". Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply.
+Simple formulas such as `$z_{\mathrm d}$` are read as "z d" in concise style. Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply. Short accents keep their labels, for example `\underline f(x)` as "f underbar of x" and `\overline g(x)` as "g bar of x".
 
-Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endpoints use concise "to" phrasing; verbose mode retains "closed interval". Other bracketed pairs keep their brackets. Simply subscripted adjacent factors are separated by "times".
+Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endpoints use concise "to" phrasing. Membership or explicit interval prose also enables bounded interval reading; endpoint inclusion is retained by default. Ambiguous short coordinate/vector pairs use neutral pauses rather than an assumed range. Verbose mode retains supported structural labels. Simply subscripted adjacent factors are separated by "times".
 
 `sanitizeAcademicTextForSpeech(text, options)` is the opt-in Markdown speech-cleaning entry point. It enables grouped numeric citations such as `[2][4]` becoming "references 2 and 4", or "文献2和4" in Chinese prose.
 
@@ -60,7 +60,9 @@ Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endp
 | --- | --- | --- |
 | `mathReadingLanguage` | `english` | `english`, `chinese`, `skip` |
 | `academicMathMode` | `smart` | `smart`, `all`, `skip`; `all` relaxes the length limit but still omits unsupported syntax |
-| `academicMathStyle` | `concise` | `concise` uses `sub` and `bar`; `verbose` uses `subscript` or `下标` |
+| `academicMathStyle` | `concise` | `concise` uses short indices and accent labels; `verbose` uses explicit structure |
+| `academicFunctionStyle` | `of` | `of`, or `compact` for "f x" rather than "f of x" in concise simple functions; prose and verbose style are unchanged |
+| `academicIntervalStyle` | `precise` | `precise` retains endpoint inclusion; `range` only says lower "to" upper in concise recognized intervals |
 | `academicTableMode` | `smart` | `smart`, `all`, `skip` |
 | `academicSkipNotice` | `true` | Speak a short omission notice; `false` omits silently |
 
@@ -90,7 +92,7 @@ For progressive pages or paragraphs, call `createIncrementalSpeechChunker(limits
 
 ## Compatibility and Boundaries
 
-The 0.2.0 release is additive: existing exports, the default `sanitizeTextForSpeech(text)` behavior, and legacy chunk schedules remain available. Existing consumers do not automatically adopt academic reading; choose the new entry point explicitly. Releasing this library does not update plugins pinned to an older tag.
+The 0.3.0 release updates the opt-in academic pronunciation contract: short indices are concise, omission notices use "Formula." / "公式。", and modern bounded function/interval rules are shared by both plugins. Existing exports, the default nonacademic `sanitizeTextForSpeech(text)` behavior and legacy chunk schedules remain available. Releasing this library does not update plugins pinned to an older tag. The pure math helper modules have matching subpath exports for thin host adapters; the shared public regression corpus is available at `./test/math-golden-fixtures`.
 
 The runtime contains no Node.js, Electron, DOM, speech-provider, audio-player, or storage code. Node.js 18+ is needed only to run the development checks. Runtime code uses modern JavaScript and is intended to be bundled for a supported Obsidian/WebView version.
 

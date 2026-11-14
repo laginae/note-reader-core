@@ -17,7 +17,7 @@
 安装固定 Git 版本，并将库打包到应用中：
 
 ```sh
-npm install github:laginae/note-reader-core#v0.2.0
+npm install github:laginae/note-reader-core#0.3.0
 ```
 
 ```js
@@ -50,9 +50,9 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 
 ## 学术阅读设置
 
-简单公式如 `$z_{\mathrm d}$` 会读作“z sub d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。
+简单公式如 `$z_{\mathrm d}$` 在简洁模式读作“z d”。字体和排版空白不会使简单公式被误判为复杂公式；仍尊重主动跳过公式的设置，并保留复杂公式保护。短修饰函数保留符号名，例如 `\underline f(x)` 读为“f underbar of x”，`\overline g(x)` 读为“g bar of x”。
 
-常见上下界写法如 `[\ell,u]`、以同一变量的 `E_{\min}` / `E_{\max}` 开头的两端表达式，精简模式使用“到”，详细模式保留“闭区间”提示。其他方括号对仍按括号朗读；相邻的简单带下标变量之间补读“乘以”。
+常见上下界写法如 `[\ell,u]`、以同一变量的 `E_{\min}` / `E_{\max}` 开头的两端表达式，简洁模式使用“到”。归属关系或明确的区间正文语境也可启用短区间读法，默认保留端点条件；含义不明的短坐标／向量对使用中性停顿，不擅自当作区间。完整模式保留支持的结构，相邻的简单带下标变量之间补读“乘以”。
 
 `sanitizeAcademicTextForSpeech(text, options)` 是显式启用学术优化的 Markdown 清理入口。相邻引用如 `[2][4]` 会合并成“文献2和4”，英文正文中为“references 2 and 4”。
 
@@ -60,7 +60,9 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 | --- | --- | --- |
 | `mathReadingLanguage` | `english` | `english`、`chinese` 或 `skip` |
 | `academicMathMode` | `smart` | `smart`、`all`、`skip`；`all` 放宽长度限制，但仍跳过不支持的公式 |
-| `academicMathStyle` | `concise` | `concise` 使用 `sub`、`bar`；`verbose` 使用 `subscript` 或“下标” |
+| `academicMathStyle` | `concise` | `concise` 使用简短下标与修饰符名；`verbose` 保留明确结构 |
+| `academicFunctionStyle` | `of` | `compact` 可在简洁的简单函数中省略 of，读“f x”；正文与完整模式不变 |
+| `academicIntervalStyle` | `precise` | 默认保留端点条件；`range` 可在简洁的已识别区间中只读起点到终点 |
 | `academicTableMode` | `smart` | `smart`、`all`、`skip` |
 | `academicSkipNotice` | `true` | 简短提示内容被略过；设为 `false` 则静默略过 |
 
@@ -90,7 +92,7 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 
 ## 兼容性与责任边界
 
-0.2.0 为增量更新，保留原有导出函数、`sanitizeTextForSpeech(text)` 默认行为和旧版分块设置。旧调用方不会自动启用学术优化，需要主动选择新入口。发布核心库不会自动更新固定使用旧标签的插件。
+0.3.0 更新显式学术入口的读法约定：下标改用简短读法，公式提示为“公式。”或“Formula.”，桌面与移动版共用新的有限函数／区间规则。保留原有导出函数、非学术 `sanitizeTextForSpeech(text)` 默认行为和旧版分块设置。发布核心库不会自动更新固定使用旧标签的插件。纯公式辅助模块提供对应子路径，跨端通用测试样例可从 `./test/math-golden-fixtures` 导入。
 
 运行时不包含 Node.js、Electron、DOM、语音服务、播放器或存储逻辑。Node.js 18+ 仅用于开发检查；运行代码使用现代 JavaScript，应打包到受支持的 Obsidian/WebView 环境中。
 

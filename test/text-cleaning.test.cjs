@@ -46,7 +46,7 @@ assert.strictEqual(
   '短公式 和 跳过。'
 );
 
-const reportedMarkdownTable = `**Table I. Coverage of the 1 min aggregation of the 2023 frequency data of the three regions**
+const reportedMarkdownTable = `**Table I. Public sampling example for three regions**
 
 | Region | Dataset | Raw sampling interval [s] | Valid 15 min periods | Adjacent month pairs | Invalid ratio [%] |
 | :----: | :-----: | ------------------------: | -------------------: | -------------------: | ----------------: |
@@ -54,7 +54,7 @@ const reportedMarkdownTable = `**Table I. Coverage of the 1 min aggregation of t
 const sanitizedMarkdownTable = sanitizeTextForSpeech(reportedMarkdownTable);
 assert.strictEqual(
   sanitizedMarkdownTable,
-  'Table I. Coverage of the 1 min aggregation of the 2023 frequency data of the three regions\n' +
+  'Table I. Public sampling example for three regions\n' +
     'Table columns: Region; Dataset; Raw sampling interval [s]; Valid 15 min periods; Adjacent month pairs; Invalid ratio [%].\n' +
     'Row 1. Region: CN-NE.'
 );
@@ -65,10 +65,10 @@ assert.strictEqual(
   'Table columns: Name; Value.\nRow 1. Name: Frequency.'
 );
 
-const reportedCitationText = 'to examine the effect of rolling parameter updates. The results are given in Supplementary Material S3 [28], [29]. The second stage constructs 90% and 95% intervals from the empirical quantiles of training-period hold-out forecasts and then verifies the calibration of the intervals with the empirical coverage on the test month [30].';
+const reportedCitationText = 'This public example describes a repeated-reference check. Examples appear in Appendix A [28], [29]. Another public sentence includes 90% and 95% values and cites [30].';
 assert.strictEqual(
   sanitizeTextForSpeech(reportedCitationText),
-  'to examine the effect of rolling parameter updates. The results are given in Supplementary Material S3 reference 28, reference 29. The second stage constructs 90% and 95% intervals from the empirical quantiles of training-period hold-out forecasts and then verifies the calibration of the intervals with the empirical coverage on the test month reference 30.'
+  'This public example describes a repeated-reference check. Examples appear in Appendix A reference 28, reference 29. Another public sentence includes 90% and 95% values and cites reference 30.'
 );
 assert.strictEqual(
   sanitizeTextForSpeech('Evidence is reported in [28, 29] and [28–30].'),

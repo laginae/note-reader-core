@@ -10,25 +10,26 @@ const {
 test('academic math uses concise subscripts, accents, fraction order and known operators', () => {
   assert.equal(mathSpeech(String.raw`\frac{1}{2}`, { mathReadingLanguage: 'chinese' }), '2 分之 1');
   assert.equal(mathSpeech(String.raw`\alpha+\gamma`), 'alpha plus gamma');
-  assert.equal(mathSpeech(String.raw`\bar{x}_i`), 'x bar sub i');
-  assert.equal(mathSpeech(String.raw`x_\alpha`), 'x sub alpha');
+  assert.equal(mathSpeech(String.raw`\bar{x}_i`), 'x bar i');
+  assert.equal(mathSpeech(String.raw`x_\alpha`), 'x alpha');
   assert.equal(mathSpeech(String.raw`x^\alpha`), 'x to the power of alpha');
   assert.equal(mathSpeech('x_i', { academicMathStyle: 'verbose' }), 'x subscript i');
   assert.equal(mathSpeech('x_i', { academicMathStyle: 'verbose', mathReadingLanguage: 'chinese' }), 'x 下标 i');
-  assert.equal(mathSpeech(String.raw`|Y\_{k,h}|`), 'absolute value of Y sub k,h');
+  assert.equal(mathSpeech(String.raw`|Y\_{k,h}|`), 'absolute value of Y k h');
   assert.equal(mathSpeech(String.raw`\sqrt{x}`), 'square root of x');
-  assert.match(mathSpeech(String.raw`\frac{1}{a-b}`), /open parenthesis a minus b close parenthesis/);
-  assert.match(academicLatex('Bounds $[1,2]$ and $x<y$.'), /open bracket 1,2 close bracket.*x less than y/);
+  assert.equal(mathSpeech(String.raw`\frac{1}{a-b}`), '1 divided by the difference of a and b');
+  assert.match(mathSpeech(String.raw`\frac{1}{a-b}`, { academicMathStyle: 'verbose' }), /open parenthesis a minus b close parenthesis/);
+  assert.match(academicLatex('Bounds $[1,2]$ and $x<y$.'), /1 to 2.*x less than y/);
 });
 
 test('complex, unknown and malformed formulas are omitted rather than guessed', () => {
   for (const input of [String.raw`\sum_{i=1}^n x_i`, String.raw`\unknown{x}`, 'x_{i', 'x'.repeat(33)]) {
-    assert.equal(mathSpeech(input), 'Formula omitted.');
+    assert.equal(mathSpeech(input), 'Formula.');
     assert.equal(mathSpeech(input, { academicSkipNotice: false }), '');
   }
   assert.equal(mathSpeech('x'.repeat(33), { academicMathMode: 'all' }), 'x'.repeat(33));
-  assert.equal(mathSpeech('x'.repeat(101), { academicMathMode: 'all' }), 'Formula omitted.');
-  assert.equal(mathSpeech('x', { academicMathMode: 'skip', mathReadingLanguage: 'chinese' }), '公式略过。');
+  assert.equal(mathSpeech('x'.repeat(101), { academicMathMode: 'all' }), 'Formula.');
+  assert.equal(mathSpeech('x', { academicMathMode: 'skip', mathReadingLanguage: 'chinese' }), '公式。');
 });
 
 test('academic citations group numeric references and preserve units, years and intervals', () => {
@@ -64,13 +65,13 @@ test('legacy default cleanup is unchanged; the academic entry point explicitly o
   assert.equal(sanitizeTextForSpeech('研究[2][4]。'), '研究 参考文献 2 参考文献 4。');
   assert.equal(sanitizeAcademicTextForSpeech('研究[2][4]。'), '研究 文献2和4。');
   assert.equal(sanitizeTextForSpeech('$x_i$'), 'x subscript i');
-  assert.equal(sanitizeAcademicTextForSpeech('$x_i$'), 'x sub i');
+  assert.equal(sanitizeAcademicTextForSpeech('$x_i$'), 'x i');
   assert.match(sanitizeTextForSpeech(markdown), /R7/);
   assert.equal(sanitizeAcademicTextForSpeech('第一段。\n\n第二段。'), '第一段。\n第二段。');
 });
 
 test('academic options project only public algorithm settings', () => {
   assert.deepEqual(academicOptions({ apiKey: 'synthetic-placeholder', filePath: 'sample.md' }), academicOptions());
-  assert.equal(Object.keys(academicOptions()).length, 5);
+  assert.equal(Object.keys(academicOptions()).length, 7);
   assert.equal(academicOptions({ academicMathMode: 'invalid' }).academicMathMode, 'smart');
 });

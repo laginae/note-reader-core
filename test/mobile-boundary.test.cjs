@@ -9,7 +9,7 @@ const { checkSource, checkMobileBoundary } = require('../scripts/check-mobile-bo
 const root = path.resolve(__dirname, '..');
 
 test('runtime source has no external modules, host APIs or runtime dependencies', () => {
-  assert.equal(checkMobileBoundary(), 8);
+  assert.equal(checkMobileBoundary(), 14);
   for (const source of [
     "require('node:fs')", "require('child_process')", "require('electron')", "require('stream')",
     "require(name)", "require('../outside')", "fetch('https://example.test')", 'window.speechSynthesis',
