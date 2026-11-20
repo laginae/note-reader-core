@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2
+
+- Export three fixed English and Chinese Markdown examples for local academic reading previews. Hosts use their actual speech formatter; this helper does not read documents, initiate synthesis or access the network.
+- No change to default pronunciation, table policy, selection bounds or playback.
+
 ## 0.3.1
 
 - Add `academicTableRepeatHeaders`, on by default. When false, read the opening headers once and then each row's values without repeating column labels.
