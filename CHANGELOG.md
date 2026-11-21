@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+
+- Everyday reading uses contextual simple functions, natural interval membership and once-only headers for simple tables. Multiple numeric values in a row retain their column labels.
+- Add opt-in academic detail and a custom profile. Hosts can distinguish first installs from saved legacy preferences without overwriting them. Smart omissions and explicit math wording remain available.
+
 ## 0.3.2
 
 - Export three fixed English and Chinese Markdown examples for local academic reading previews. Hosts use their actual speech formatter; this helper does not read documents, initiate synthesis or access the network.

@@ -4,9 +4,9 @@ const { academicOptions, formatTableForSpeech, sanitizeAcademicTextForSpeech, sa
 const headers = ['Item', 'Count'], rows = [['Apples', '2'], ['Pears', '3']];
 const markdown = '| Item | Count |\n| --- | --- |\n| Apples | 2 |\n| Pears | 3 |';
 
-test('header repetition defaults on and only boolean false disables it', () => {
+test('unversioned saved custom settings keep the old header default', () => {
   for (const value of [undefined, null, 0, 'false', true]) {
-    const options = academicOptions({ academicTableRepeatHeaders: value });
+    const options = academicOptions({ readingProfile: 'custom', academicTableRepeatHeaders: value });
     assert.equal(options.academicTableRepeatHeaders, true);
     assert.equal(formatTableForSpeech(headers, rows, options), 'Table columns: Item; Count.\nRow 1. Item: Apples; Count: 2.\nRow 2. Item: Pears; Count: 3.');
   }

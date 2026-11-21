@@ -1,6 +1,6 @@
 # Note Reader Core
 
-表格设置 `academicTableRepeatHeaders` 默认开启。关闭后仅在开头读一次表头，再按行读行号与单元格；空单元格保留简短占位，避免列顺序错位。该选项不改变智能跳过策略，也不从扁平 PDF 文字强行推断表头。宿主可用 `formatTableForSpeech(headers, rows, options)` 处理已可靠提取的表格。
+新安装默认**日常朗读**：简表开始时读一次表头，一行中有多个数值时补读对应列名；复杂公式和长数字表仍按智能策略略过。**学术精读**保留明确的公式结构并按行读表头。**自定义**使用单项设置。宿主通过 `storedReadingPreferences(saved)` 区分新旧安装，切换预设不改写自定义值，旧设置保留原有读法。PDF 不从扁平文字猜测表头。
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -63,10 +63,10 @@ const openingParts = splitOpeningAudioParts(chunks[0], true);
 | `mathReadingLanguage` | `english` | `english`、`chinese` 或 `skip` |
 | `academicMathMode` | `smart` | `smart`、`all`、`skip`；`all` 放宽长度限制，但仍跳过不支持的公式 |
 | `academicMathStyle` | `concise` | `concise` 使用简短下标与修饰符名；`verbose` 保留明确结构 |
-| `academicFunctionStyle` | `of` | `compact` 可在简洁的简单函数中省略 of，读“f x”；正文与完整模式不变 |
-| `academicIntervalStyle` | `precise` | 默认保留端点条件；`range` 可在简洁的已识别区间中只读起点到终点 |
+| `academicFunctionStyle` | `auto` | 随公式语言，中文读“f x”、英文读“f of x”；自定义可选固定 `of` 或 `compact` |
+| `academicIntervalStyle` | `natural` | 用自然比较词保留条件；`precise` 明说端点包含性，`range` 只读起点到终点 |
 | `academicTableMode` | `smart` | `smart`、`all`、`skip` |
-| `academicTableRepeatHeaders` | `true` | 设为 `false` 后只在开头读一次表头 |
+| `academicTableRepeatHeaders` | `false` | 日常朗读会为易混淆的数值补读列名；自定义显式关闭后仅在开头读一次表头 |
 | `academicSkipNotice` | `true` | 简短提示内容被略过；设为 `false` 则静默略过 |
 
 智能公式支持常见短 LaTeX 表达式。将命令压缩、去掉大括号和空白后，复杂度长度限为 32；`all` 放宽至 100。积分、求和、矩阵、未知命令、括号错误或深层嵌套不会强行猜读。

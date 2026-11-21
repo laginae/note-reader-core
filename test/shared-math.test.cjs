@@ -5,10 +5,10 @@ const { cases } = require('./math-golden-fixtures.cjs');
 for (const example of cases) test('shared formula: ' + example.name, () => {
   assert.equal(mathSpeech(example.formula, example.options), example.expected);
 });
-test('public options default to precise intervals and of without retaining private host fields', () => {
+test('public options default to natural intervals and contextual function wording without retaining host fields', () => {
   assert.ok(Object.isFrozen(ACADEMIC_DEFAULTS));
-  assert.equal(academicOptions().academicFunctionStyle, 'of');
-  assert.equal(academicOptions().academicIntervalStyle, 'precise');
+  assert.equal(academicOptions().academicFunctionStyle, 'auto');
+  assert.equal(academicOptions().academicIntervalStyle, 'natural');
   assert.deepEqual(academicOptions({ apiKey: 'synthetic-placeholder', academicFunctionStyle: 'invalid' }), academicOptions());
 });
 test('full style remains unchanged by compact-function and range-only options', () => {

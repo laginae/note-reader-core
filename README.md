@@ -50,7 +50,7 @@ The caller decides whether to use this on initial playback or after a seek. This
 
 ## Academic Options
 
-`academicTableRepeatHeaders` defaults to `true`. Set it to `false` to announce a recognized table's headers once, then read row numbers and values without repeating column names. Empty cells retain a short placeholder to preserve column order. This does not change `academicTableMode` or infer structure from flattened PDF text. Hosts can call `formatTableForSpeech(headers, rows, options)` for already structured tables.
+New installations use **Everyday**: simple tables introduce their headers once, rows with two or more numeric values label those values, and complex formulas or long numeric tables still follow smart skipping. **Academic detail** uses explicit formula structure and repeats column headings. **Custom** uses individually saved choices. Use `storedReadingPreferences(saved)` on load: existing unprofiled settings retain their old effective defaults and selecting a preset never rewrites the custom fields. PDF headers are not inferred from flattened text.
 
 Simple formulas such as `$z_{\mathrm d}$` are read as "z d" in concise style. Font and spacing commands do not make a short formula complex; explicit skip settings and complex-formula safeguards still apply. Short accents keep their labels, for example `\underline f(x)` as "f underbar of x" and `\overline g(x)` as "g bar of x".
 
@@ -63,10 +63,10 @@ Conventional bounds such as `[\ell,u]` and matching `E_{\min}` / `E_{\max}` endp
 | `mathReadingLanguage` | `english` | `english`, `chinese`, `skip` |
 | `academicMathMode` | `smart` | `smart`, `all`, `skip`; `all` relaxes the length limit but still omits unsupported syntax |
 | `academicMathStyle` | `concise` | `concise` uses short indices and accent labels; `verbose` uses explicit structure |
-| `academicFunctionStyle` | `of` | `of`, or `compact` for "f x" rather than "f of x" in concise simple functions; prose and verbose style are unchanged |
-| `academicIntervalStyle` | `precise` | `precise` retains endpoint inclusion; `range` only says lower "to" upper in concise recognized intervals |
+| `academicFunctionStyle` | `auto` | Follow formula language: Chinese "f x", English "f of x". Custom can force `of` or `compact`. |
+| `academicIntervalStyle` | `natural` | Express recognized membership with ordinary comparisons; `precise` names endpoint inclusion, `range` omits it. |
 | `academicTableMode` | `smart` | `smart`, `all`, `skip` |
-| `academicTableRepeatHeaders` | `true` | Set `false` to read column headings only once |
+| `academicTableRepeatHeaders` | `false` | Everyday labels ambiguous numeric values; an explicit custom `false` always reads headers only once. |
 | `academicSkipNotice` | `true` | Speak a short omission notice; `false` omits silently |
 
 Smart math supports short known LaTeX expressions. Its complexity budget is 32 characters after commands are collapsed and braces/whitespace removed; `all` raises it to 100. Integrals, sums, matrices, unknown commands, malformed braces and deep nesting are not guessed.

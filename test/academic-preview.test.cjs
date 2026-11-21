@@ -10,8 +10,8 @@ test('public preview inputs are isolated, bilingual and exercise the real format
   for (const lang of ['english','zh']) {
     const [fn,interval,table] = academicPreviewSamples(lang).map(row=>row[1]);
     const format = (s,opts)=>sanitizeAcademicTextForSpeech(s,opts);
-    assert.notEqual(format(fn,{}),format(fn,{academicFunctionStyle:'compact'}));
+    assert.notEqual(format(fn,{academicFunctionStyle:'of'}),format(fn,{academicFunctionStyle:'compact'}));
     assert.notEqual(format(interval,{}),format(interval,{academicIntervalStyle:'range'}));
-    assert.notEqual(format(table,{}),format(table,{academicTableRepeatHeaders:false}));
+    assert.notEqual(format(table,{academicTableRepeatHeaders:true}),format(table,{academicTableRepeatHeaders:false}));
   }
 });
