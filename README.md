@@ -17,7 +17,7 @@ Pure JavaScript reading algorithms for the desktop and mobile editions of Note a
 Install the pinned Git release and bundle it into your application:
 
 ```sh
-npm install github:laginae/note-reader-core#0.3.1
+npm install github:laginae/note-reader-core#0.4.1
 ```
 
 ```js

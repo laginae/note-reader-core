@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1
+
+- Share column-aware evidence for Roman-numbered chapters and lettered subsections in text PDFs, including same-size headings and centered title continuations.
+- Correct the encoded glyph in the public strict-inequality test fixture. It now distinguishes less-than from less-than-or-equal.
+
 ## 0.4.0
 
 - Everyday reading uses contextual simple functions, natural interval membership and once-only headers for simple tables. Multiple numeric values in a row retain their column labels.
